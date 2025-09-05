@@ -444,35 +444,44 @@ document.addEventListener('DOMContentLoaded', () => {
             phone_number: paymentMethod === 'mpesa' ? document.getElementById('phone')?.value : null
         };
         
-        // Create form and submit to payment processing
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/payment';
-        
-        // Add CSRF token
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = '_token';
-        csrfInput.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        form.appendChild(csrfInput);
-        
-        // Add payment method and phone number
-        const paymentMethodInput = document.createElement('input');
-        paymentMethodInput.type = 'hidden';
-        paymentMethodInput.name = 'payment_method';
-        paymentMethodInput.value = paymentMethod;
-        form.appendChild(paymentMethodInput);
+        // Submit payment via fetch to avoid page reload
+        const formData = new FormData();
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+        formData.append('payment_method', paymentMethod);
         
         if (paymentMethod === 'mpesa') {
-            const phoneInput = document.createElement('input');
-            phoneInput.type = 'hidden';
-            phoneInput.name = 'phone_number';
-            phoneInput.value = document.getElementById('phone')?.value || '';
-            form.appendChild(phoneInput);
+            formData.append('phone_number', document.getElementById('phone')?.value || '');
         }
         
-        document.body.appendChild(form);
-        form.submit();
+        fetch('/payment', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (response.redirected) {
+                // Payment processed successfully, redirect to confirmation
+                window.location.href = response.url;
+            } else if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Payment processing failed');
+            }
+        })
+        .then(data => {
+            if (data && data.redirect) {
+                window.location.href = data.redirect;
+            }
+        })
+        .catch(error => {
+            console.error('Payment error:', error);
+            // Reset button state
+            this.disabled = false;
+            this.innerHTML = `<span id="pay-button-text">Pay</span> <span id="pay-amount">KES ${orderTotal ? orderTotal.toLocaleString() : '0'}</span>`;
+            alert('Payment processing failed. Please try again.');
+        });
     });
     
     function calculateSubtotal() {
