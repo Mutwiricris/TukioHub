@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
+{{-- Include Authentication Modal --}}
+@include('components.auth-modal')
 <style>
     /* Enhanced Search Autocomplete */
     .search-dropdown {
@@ -79,6 +80,24 @@
 
     .filter-drawer.open {
         transform: translateX(0);
+    }
+
+    /* Card utilities */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Improved card hover effects */
+    .event-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .event-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
     }
 </style>
 
@@ -306,8 +325,8 @@
                         $minPrice = $event->tickets->min('price');
                         $maxPrice = $event->tickets->max('price');
                     @endphp
-                    <a href="{{ route('Eventsdetails', $event->slug) }}" class="group block">
-                        <div class="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-primary-400/50 hover:bg-white/10 hover:shadow-xl hover:shadow-primary-500/10">
+                    <a href="{{ route('Eventsdetails', $event->slug) }}" class="group block" onclick="@guest showAuthModal(); return false; @endguest">
+                        <div class="event-card overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-primary-400/50 hover:bg-white/10 hover:shadow-primary-500/20">
                             <div class="relative">
                                 <img
                                     src="{{ $event->image_url ?: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&h=300&fit=crop' }}"
@@ -327,18 +346,30 @@
                                 </div>
                             </div>
 
-                            <div class="p-4">
-                                <h3 class="font-bold text-lg text-white group-hover:text-primary-400 transition-colors">
-                                    {{ Str::limit($event->name, 50) }}
+                            <div class="p-5">
+                                <h3 class="font-bold text-xl text-white group-hover:text-primary-400 transition-colors line-clamp-2 min-h-[3.5rem]">
+                                    {{ $event->name }}
                                 </h3>
-                                <p class="mt-1 text-sm text-gray-400">
-                                    📍 {{ $event->venue->name ?? 'TBA' }}, {{ $event->venue->city ?? 'Nairobi' }}
-                                </p>
-                                <p class="mt-1 text-xs text-gray-500">
-                                    🗓️ {{ $event->start_date->format('D, M j, Y • g:i A') }}
-                                </p>
+                                <div class="mt-2 mb-3">
+                                    @include('components.organizer-badge', ['event' => $event])
+                                </div>
+                                <div class="space-y-2 mt-3">
+                                    <p class="text-sm text-gray-400 flex items-center gap-2">
+                                        <svg class="h-4 w-4 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span class="truncate">{{ $event->venue->name ?? 'TBA' }}, {{ $event->venue->city ?? 'Nairobi' }}</span>
+                                    </p>
+                                    <p class="text-sm text-gray-500 flex items-center gap-2">
+                                        <svg class="h-4 w-4 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 012 0v4m0 0V3a1 1 0 012 0v4m0 0h4m-4 0H8m0 0v5a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2H10a2 2 0 00-2 2z" />
+                                        </svg>
+                                        <span>{{ $event->start_date->format('D, M j, Y • g:i A') }}</span>
+                                    </p>
+                                </div>
 
-                                <div class="mt-4 flex items-center justify-between">
+                                <div class="mt-5 flex items-center justify-between">
                                     <div class="text-sm">
                                         @if($minPrice && $minPrice > 0)
                                             @if($minPrice === $maxPrice)
@@ -399,9 +430,102 @@
             </button>
         </div>
         <div class="flex-1 overflow-y-auto p-4">
-            <!-- Mobile filter content (same as desktop) -->
             <form method="GET" action="{{ route('Browse') }}" id="mobile-filter-form">
-                <!-- Same filter content as desktop sidebar -->
+                <input type="hidden" name="search" value="{{ request('search') }}">
+
+                <!-- Category Filter -->
+                <div class="mb-6">
+                    <h4 class="mb-3 text-sm font-medium text-gray-300">Category</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="category" value="all" {{ request('category', 'all') === 'all' ? 'checked' : '' }} class="sr-only">
+                            <span class="mobile-filter-option flex w-full cursor-pointer items-center rounded-lg px-3 py-2 text-sm transition-colors {{ request('category', 'all') === 'all' ? 'bg-primary-500/20 text-primary-300' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                All Events
+                            </span>
+                        </label>
+                        @foreach($eventTypes as $type)
+                            <label class="flex items-center">
+                                <input type="radio" name="category" value="{{ $type->id }}" {{ request('category') == $type->id ? 'checked' : '' }} class="sr-only">
+                                <span class="mobile-filter-option flex w-full cursor-pointer items-center rounded-lg px-3 py-2 text-sm transition-colors {{ request('category') == $type->id ? 'bg-primary-500/20 text-primary-300' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                    {{ $type->name }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Location Filter -->
+                <div class="mb-6">
+                    <h4 class="mb-3 text-sm font-medium text-gray-300">Location</h4>
+                    <select name="location" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-primary-400 focus:outline-none">
+                        <option value="">All Locations</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city }}" {{ request('location') === $city ? 'selected' : '' }}>
+                                {{ $city }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Date Filter -->
+                <div class="mb-6">
+                    <h4 class="mb-3 text-sm font-medium text-gray-300">Date Range</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">From</label>
+                            <input type="date" name="date_from" value="{{ request('date_from') }}" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-primary-400 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">To</label>
+                            <input type="date" name="date_to" value="{{ request('date_to') }}" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-primary-400 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="mb-6">
+                    <h4 class="mb-3 text-sm font-medium text-gray-300">Price Range (KES)</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <input type="number" name="price_min" value="{{ request('price_min') }}" placeholder="Min" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-primary-400 focus:outline-none">
+                            <span class="text-gray-400">-</span>
+                            <input type="number" name="price_max" value="{{ request('price_max') }}" placeholder="Max" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-primary-400 focus:outline-none">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="setMobilePriceRange(0, 1000)" class="flex-1 rounded-lg border border-white/10 px-3 py-1 text-xs text-gray-400 hover:bg-white/5 hover:text-white">
+                                Free - 1K
+                            </button>
+                            <button type="button" onclick="setMobilePriceRange(1000, 5000)" class="flex-1 rounded-lg border border-white/10 px-3 py-1 text-xs text-gray-400 hover:bg-white/5 hover:text-white">
+                                1K - 5K
+                            </button>
+                            <button type="button" onclick="setMobilePriceRange(5000, null)" class="flex-1 rounded-lg border border-white/10 px-3 py-1 text-xs text-gray-400 hover:bg-white/5 hover:text-white">
+                                5K+
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sort Options -->
+                <div class="mb-6">
+                    <h4 class="mb-3 text-sm font-medium text-gray-300">Sort By</h4>
+                    <select name="sort" class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white focus:border-primary-400 focus:outline-none">
+                        <option value="start_date" {{ request('sort') === 'start_date' ? 'selected' : '' }}>Date (Earliest First)</option>
+                        <option value="popularity" {{ request('sort') === 'popularity' ? 'selected' : '' }}>Popularity</option>
+                        <option value="price_low" {{ request('sort') === 'price_low' ? 'selected' : '' }}>Price (Low to High)</option>
+                        <option value="price_high" {{ request('sort') === 'price_high' ? 'selected' : '' }}>Price (High to Low)</option>
+                        <option value="name" {{ request('sort') === 'name' ? 'selected' : '' }}>Name (A-Z)</option>
+                    </select>
+                </div>
+
+                <!-- Apply Filters Button -->
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 rounded-lg bg-primary-500 py-3 text-sm font-semibold text-white hover:bg-primary-400 transition-colors">
+                        Apply Filters
+                    </button>
+                    <button type="button" onclick="clearMobileFilters()" class="rounded-lg border border-white/10 px-4 py-3 text-sm text-gray-400 hover:bg-white/5 hover:text-white transition-colors">
+                        Clear
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -474,6 +598,15 @@ function setPriceRange(min, max) {
     document.querySelector('input[name="price_max"]').value = max || '';
 }
 
+function setMobilePriceRange(min, max) {
+    document.querySelector('#mobile-filter-form input[name="price_min"]').value = min || '';
+    document.querySelector('#mobile-filter-form input[name="price_max"]').value = max || '';
+}
+
+function clearMobileFilters() {
+    window.location.href = '{{ route("Browse") }}';
+}
+
 function quickSort(sortValue) {
     const url = new URL(window.location);
     url.searchParams.set('sort', sortValue);
@@ -501,14 +634,17 @@ function closeMobileFilterDrawer() {
 closeMobileFilter?.addEventListener('click', closeMobileFilterDrawer);
 mobileFilterOverlay?.addEventListener('click', closeMobileFilterDrawer);
 
-// Filter option styling
-document.querySelectorAll('.filter-option').forEach(option => {
+// Filter option styling for both desktop and mobile
+document.querySelectorAll('.filter-option, .mobile-filter-option').forEach(option => {
     option.addEventListener('click', function() {
         const radio = this.previousElementSibling;
         radio.checked = true;
 
-        // Update styling
-        document.querySelectorAll('.filter-option').forEach(opt => {
+        // Update styling for the current form (desktop or mobile)
+        const form = this.closest('form');
+        const filterOptions = form.querySelectorAll('.filter-option, .mobile-filter-option');
+        
+        filterOptions.forEach(opt => {
             opt.classList.remove('bg-primary-500/20', 'text-primary-300');
             opt.classList.add('text-gray-400');
         });

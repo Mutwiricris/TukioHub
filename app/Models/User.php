@@ -20,9 +20,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        "name",
+        "email",
+        "phone",
+        "password",
     ];
 
     /**
@@ -89,5 +90,13 @@ class User extends Authenticatable
     public function checkins()
     {
         return $this->hasMany(Checkin::class, 'scanned_by_user_id');
+    }
+
+    /**
+     * Get the tickets that belong to the user.
+     */
+    public function userTickets()
+    {
+        return $this->hasMany(\App\Models\UserTicket::class);
     }
 }

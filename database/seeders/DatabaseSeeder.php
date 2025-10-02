@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             SponsorSeeder::class,
             PromoCodeSeeder::class,
             EventSessionSeeder::class,
+            UserTicketSeeder::class,
 
             // Transaction seeders (require events and users)
             OrderSeeder::class,

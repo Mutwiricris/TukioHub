@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Homepage with featured events
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', Browse::class)->name('home')->middleware('cache.response:120');
 
 // Browse events with search and filters
-Route::get('/Browse', [BrowseController::class, 'index'])->name('Browse');
+Route::get('/browse', [BrowseController::class, 'index'])->name('Browse');
 
 // AJAX search for autocomplete
 Route::get('/api/search', [BrowseController::class, 'search'])->name('api.search');
@@ -46,6 +46,12 @@ Route::post('/payment', [PaymentController::class, 'process'])->name('payment.pr
 
 // Confirmation page
 Route::get('/confirmation', [ConfirmationController::class, 'show'])->name('confirmation');
+
+// User tickets
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-tickets', [\App\Http\Controllers\UserTicketController::class, 'index'])->name('user.tickets.index');
+    Route::get('/my-tickets/{ticket}', [\App\Http\Controllers\UserTicketController::class, 'show'])->name('user.tickets.show');
+});
 
 // Download ticket route
 Route::middleware(['auth'])->get('/confirmation/download/{ticketId}', [ConfirmationController::class, 'downloadTicket'])->name('confirmation.download');
@@ -161,9 +167,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // User Settings
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::redirect('/', 'settings/profile');
-        Route::get('/profile', Profile::class)->name('profile');
-        Route::get('/password', Password::class)->name('password');
-        Route::get('/appearance', Appearance::class)->name('appearance');
+        Route::get('/profile', function () {
+            return view('settings.profile');
+        })->name('profile');
+        Route::get('/password', function () {
+            return view('settings.password');
+        })->name('password');
+        Route::get('/appearance', function () {
+            return view('settings.appearance');
+        })->name('appearance');
     });
 });
 

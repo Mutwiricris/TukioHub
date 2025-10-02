@@ -90,12 +90,14 @@
             <a href="{{ route('Browse') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">Browse</a>
             <a href="{{ route('Browse') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">Explore</a>
             <a href="{{ route('Browse') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">Concerts</a>
-            <a href="{{ route('Tickets') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">My Tickets</a>
+            @auth
+            <a href="{{ route('user.tickets.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">My Tickets</a>
+            @endauth
           </nav>
 
           <div class="hidden items-center gap-4 lg:flex">
             @auth
-              <a href="{{ route('Tickets') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">My Tickets</a>
+              <a href="{{ route('user.tickets.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">My Tickets</a>
               <div class="relative group">
                 <button class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white focus-visible-ring">
                   {{ Auth::user()->name }}
@@ -160,7 +162,7 @@
               <a href="#" class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white">Explore</a>
               <a href="#" class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white">Concerts</a>
               @auth
-                <a href="{{ route('Tickets') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white">My Tickets</a>
+                <a href="{{ route('user.tickets.index') }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white">My Tickets</a>
               @endauth
             </div>
 
@@ -448,5 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </footer>
 
-  </body>
+    <!-- Cache Status Indicator -->
+    <x-cache-status />
+    </body>
 </html>

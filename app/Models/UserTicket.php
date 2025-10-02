@@ -14,6 +14,7 @@ class UserTicket extends Model
         'user_id',
         'event_id', 
         'ticket_id',
+        'order_id',
         'reference_number',
         'price',
         'status',
@@ -46,6 +47,11 @@ class UserTicket extends Model
     public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class);
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 
     public function paymentTransaction(): BelongsTo

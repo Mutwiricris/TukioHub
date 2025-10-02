@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- Include Authentication Modal --}}
+@include('components.auth-modal')
 <div class="min-h-screen bg-zinc-900 text-zinc-200">
     <div class="relative h-[90vh] overflow-hidden">
         <img src="{{ $event->image_url ?? 'https://images.unsplash.com/photo-1527261834078-9b37d35a4a32?q=80&w=2070&auto=format&fit=crop' }}"
@@ -11,10 +13,11 @@
         <div class="relative flex h-full items-end pb-24">
             <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl text-left">
-                    <div class="mb-4">
+                    <div class="mb-4 flex flex-wrap items-center gap-3">
                         <span class="inline-flex items-center gap-x-2 rounded-full bg-green-500/10 px-4 py-2 text-sm font-medium text-green-300 ring-1 ring-inset ring-green-500/20">
                             {{ $event->eventType->name ?? 'Event' }}
                         </span>
+                        @include('components.organizer-badge', ['event' => $event])
                     </div>
 
                     <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl mb-6">
@@ -26,7 +29,7 @@
                     </p>
 
                     <div class="flex flex-col gap-4 sm:flex-row">
-                        <button onclick="ticket_modal.showModal()"
+                        <button onclick="@guest showAuthModal(); @else ticket_modal.showModal(); @endguest"
                                 class="group inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-teal-500 px-8 py-4 text-lg font-bold text-white shadow-lg shadow-green-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/30 hover:scale-105 active:scale-100">
                             <svg class="mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
@@ -92,6 +95,7 @@
                             <p class="text-sm text-green-400">{{ $performer->type ?? 'Artist' }}</p>
                         </div>
                         @endforeach
+
                     </div>
                 </div>
                 @endif
@@ -106,19 +110,19 @@
                             <div class="rounded-lg bg-zinc-700/40 p-3">
                                 <div class="flex justify-between items-center">
                                     <span class="font-semibold text-white">{{ $ticket->ticketType->name ?? 'General' }}</span>
-                                    <span class="font-bold text-lg text-white">${{ number_format($ticket->price, 2) }}</span>
+                                    <span class="font-bold text-lg text-white">KES {{ number_format($ticket->price, 0) }}</span>
                                 </div>
                             </div>
                             @endforeach
                         </div>
-                        <button onclick="ticket_modal.showModal()"
+                        <button onclick="@guest showAuthModal(); @else ticket_modal.showModal(); @endguest"
                                 class="w-full rounded-lg bg-gradient-to-r from-green-500 to-teal-500 py-3 text-base font-bold text-white transition-all hover:opacity-90">
                             Select Tickets
                         </button>
                     @else
                         <div class="text-center py-8">
                              <p class="text-zinc-400 mb-4">Tickets not available yet.</p>
-                            <button class="rounded-lg border border-green-500/50 px-6 py-2 text-green-400 transition-all hover:bg-green-500/10">
+                            <button onclick="@guest showAuthModal(); @endguest" class="rounded-lg border border-green-500/50 px-6 py-2 text-green-400 transition-all hover:bg-green-500/10">
                                 Join Waitlist
                             </button>
                         </div>
@@ -176,7 +180,7 @@
                         </div>
 
                         <div class="text-right flex-shrink-0">
-                            <div class="text-3xl font-bold text-white mb-1">${{ number_format($ticket->price, 2) }}</div>
+                            <div class="text-3xl font-bold text-white mb-1">KES {{ number_format($ticket->price, 0) }}</div>
                             @if($ticket->quantity !== null && $ticket->quantity > 0)
                             <div class="text-sm text-zinc-400">{{ $ticket->quantity }} available</div>
                             @endif
@@ -194,7 +198,7 @@
                                 <span class="quantity-display text-xl font-bold text-white w-12 text-center">0</span>
                                 <button type="button" class="quantity-btn increase flex h-9 w-9 items-center justify-center rounded-full bg-zinc-700 text-green-400 font-bold transition-all hover:bg-green-500/20 hover:text-green-300" data-ticket-id="{{ $ticket->id }}">+</button>
                             </div>
-                            <div class="ticket-subtotal text-2xl font-bold text-green-400 transition-all duration-300">$0.00</div>
+                            <div class="ticket-subtotal text-2xl font-bold text-green-400 transition-all duration-300">KES 0</div>
                         </div>
                     @endif
                 </div>
@@ -206,13 +210,13 @@
                     <div class="space-y-2">
                         <div class="flex justify-between text-zinc-300">
                             <span>Subtotal</span>
-                            <span class="subtotal-display font-mono font-semibold">$0.00</span>
+                            <span class="subtotal-display font-mono font-semibold">KES 0.00</span>
                         </div>
                         <!-- Service fee removed -->
                         <div class="border-t border-white/10 my-2"></div>
                         <div class="flex justify-between text-xl font-bold">
                             <span class="text-white">Total</span>
-                            <span id="final-total" class="text-green-400 font-mono">$0.00</span>
+                            <span id="final-total" class="text-green-400 font-mono">KES 0.00</span>
                         </div>
                     </div>
                 </div>
@@ -246,7 +250,7 @@
         <div class="flex items-center justify-between gap-2">
              <div class="pl-2">
                  <p class="text-sm text-zinc-400">Tickets from</p>
-                 <p class="font-bold text-white text-lg">${{ number_format($event->tickets->min('price') ?? 0, 2) }}</p>
+                 <p class="font-bold text-white text-lg">KES {{ number_format($event->tickets->min('price') ?? 0, 0) }}</p>
              </div>
              <button onclick="ticket_modal.showModal()"
                     class="flex-1 rounded-lg bg-gradient-to-r from-green-500 to-teal-500 py-3 text-center font-bold text-white transition-all hover:opacity-90 active:opacity-80">
@@ -276,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const value = start + (end - start) * progress;
-            element.textContent = `$${value.toFixed(2)}`;
+            element.textContent = `KES ${Math.round(value).toLocaleString()}`;
             if (progress < 1) requestAnimationFrame(animate);
         };
         requestAnimationFrame(animate);
@@ -289,12 +293,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update displays with animation
         const subtotalEl = document.querySelector('.subtotal-display');
         if (subtotalEl) {
-            animateValue(subtotalEl, parseFloat(subtotalEl.textContent.replace('$', '')), subtotal);
+            animateValue(subtotalEl, parseFloat(subtotalEl.textContent.replace('KES', '')), subtotal);
         }
 
         const totalEl = document.getElementById('final-total');
         if (totalEl) {
-            animateValue(totalEl, parseFloat(totalEl.textContent.replace('$', '')), total);
+            animateValue(totalEl, parseFloat(totalEl.textContent.replace('KES', '')), total);
         }
 
         document.querySelectorAll('.ticket-tier').forEach(tierEl => {
@@ -304,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const ticketSubtotalEl = tierEl.querySelector('.ticket-subtotal');
             if (ticketSubtotalEl) {
-                const currentTicketSubtotal = parseFloat(ticketSubtotalEl.textContent.replace('$', ''));
+                const currentTicketSubtotal = parseFloat(ticketSubtotalEl.textContent.replace('KES', ''));
                 animateValue(ticketSubtotalEl, currentTicketSubtotal, ticket.price * ticket.selected_quantity);
             }
 
@@ -331,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkoutBtn.disabled = !hasTickets;
         }
         if (checkoutText) {
-            checkoutText.textContent = hasTickets ? `Proceed to Checkout • $${total.toFixed(2)}` : 'Select tickets to continue';
+            checkoutText.textContent = hasTickets ? `Proceed to Checkout • KES ${Math.round(total).toLocaleString()}` : 'Select tickets to continue';
         }
     }
 
@@ -360,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = '/checkout';
-                
+
                 // Add CSRF token
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                 const csrfInput = document.createElement('input');
@@ -368,14 +372,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 csrfInput.name = '_token';
                 csrfInput.value = csrfToken;
                 form.appendChild(csrfInput);
-                
+
                 // Add event ID
                 const eventInput = document.createElement('input');
                 eventInput.type = 'hidden';
                 eventInput.name = 'event_id';
                 eventInput.value = {{ $event->id }};
                 form.appendChild(eventInput);
-                
+
                 // Add ticket data
                 selectedTickets.forEach((ticket, index) => {
                     const ticketIdInput = document.createElement('input');
@@ -383,26 +387,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     ticketIdInput.name = `tickets[${ticket.id}][id]`;
                     ticketIdInput.value = ticket.id;
                     form.appendChild(ticketIdInput);
-                    
+
                     const ticketQuantityInput = document.createElement('input');
                     ticketQuantityInput.type = 'hidden';
                     ticketQuantityInput.name = `tickets[${ticket.id}][quantity]`;
                     ticketQuantityInput.value = ticket.selected_quantity;
                     form.appendChild(ticketQuantityInput);
-                    
+
                     const ticketPriceInput = document.createElement('input');
                     ticketPriceInput.type = 'hidden';
                     ticketPriceInput.name = `tickets[${ticket.id}][price]`;
                     ticketPriceInput.value = ticket.price;
                     form.appendChild(ticketPriceInput);
-                    
+
                     const ticketNameInput = document.createElement('input');
                     ticketNameInput.type = 'hidden';
                     ticketNameInput.name = `tickets[${ticket.id}][name]`;
                     ticketNameInput.value = ticket.name;
                     form.appendChild(ticketNameInput);
                 });
-                
+
                 // Submit form
                 document.body.appendChild(form);
                 form.submit();

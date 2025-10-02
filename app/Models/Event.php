@@ -52,6 +52,14 @@ class Event extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+    
+    /**
+     * Get all user tickets for this event.
+     */
+    public function userTickets()
+    {
+        return $this->hasMany(\App\Models\UserTicket::class);
+    }
 
     public function eventSessions()
     {

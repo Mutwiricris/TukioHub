@@ -8,7 +8,7 @@
                         <h3 class="font-semibold text-white">{{ $ticket->ticketType->name }}</h3>
                         <p class="text-sm text-gray-400">{{ $ticket->description }}</p>
                     </div>
-                    <p class="font-bold text-white">${{ number_format($ticket->price, 2) }}</p>
+                    <p class="font-bold text-white">KES {{ number_format($ticket->price, 0) }}</p>
                 </div>
 
                 @if($ticket->available_quantity < 0)
@@ -29,7 +29,7 @@
     <div class="mt-6 border-t border-white/10 pt-4">
         <div class="flex justify-between font-bold text-white mb-4">
             <p>Sub-Total:</p>
-            <p class="subtotal-display">$0.00</p>
+            <p class="subtotal-display">KES 0</p>
         </div>
         <button data-action="checkout" class="checkout-btn w-full rounded-xl bg-primary-500 py-4 text-base font-bold text-white shadow-lg transition hover:bg-primary-400 disabled:bg-gray-600 disabled:cursor-not-allowed" disabled aria-label="Checkout (disabled, select tickets to enable)">
             Checkout

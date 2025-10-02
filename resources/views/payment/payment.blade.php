@@ -41,16 +41,16 @@
 
     {{-- Main Content --}}
     <section class="mx-auto max-w-7xl px-4 py-8 sm:py-12">
-        <div class="grid gap-8 lg:grid-cols-3">
+        <div class="grid gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 lg:grid-cols-3">
 
             {{-- Left Column: Payment Form --}}
             <div class="lg:col-span-2">
-                <div class="rounded-2xl border border-white/10 bg-gray-500/10 p-4 sm:p-6 shadow-2xl backdrop-blur-lg">
+                <div class="rounded-2xl border border-white/10 bg-gray-500/10 p-4 sm:p-6 xl:p-8 shadow-2xl backdrop-blur-lg">
                     <h2 class="text-lg font-semibold text-white">Choose Payment Method</h2>
 
                     {{-- Payment Tabs --}}
                     <div class="mt-4 border-b border-white/10">
-                        <nav id="payment-tabs" class="-mb-px flex space-x-6" aria-label="Tabs">
+                        <nav id="payment-tabs" class="-mb-px flex space-x-4 sm:space-x-6 xl:space-x-8" aria-label="Tabs">
                             <button class="payment-tab active whitespace-nowrap border-b-2 border-primary-500 text-primary-400 px-1 py-3 text-sm font-medium flex items-center gap-2" data-tab="mpesa">
                                 <i data-lucide="smartphone" class="h-5 w-5"></i> M-Pesa
                             </button>
@@ -60,9 +60,9 @@
                             <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-1 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-gray-300 hover:text-white flex items-center gap-2" data-tab="bank_transfer">
                                 <i data-lucide="building-2" class="h-5 w-5"></i> Bank Transfer
                             </button>
-                            <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-1 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-gray-300 hover:text-white flex items-center gap-2" data-tab="cash">
+                            <!-- <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-1 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-gray-300 hover:text-white flex items-center gap-2" data-tab="cash">
                                 <i data-lucide="banknote" class="h-5 w-5"></i> Cash
-                            </button>
+                            </button> -->
                         </nav>
                     </div>
 
@@ -199,7 +199,7 @@
                         </div>
                     </div>
 
-                    <button id="pay-button" class="mt-8 w-full rounded-lg bg-primary-500 px-4 py-3 text-sm font-bold text-white transition hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed" type="button">
+                    <button id="pay-button" class="mt-8 w-full rounded-lg bg-primary-500 px-4 py-3 xl:py-4 text-sm xl:text-base font-bold text-white transition hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed" type="button">
                         <span id="pay-button-text">Pay</span> <span id="pay-amount">KES {{ $orderTotal ? number_format($orderTotal, 0) : '0' }}</span>
                     </button>
                 </div>
@@ -208,7 +208,7 @@
             {{-- Right Column: Order Summary --}}
             <aside>
                 <div class="sticky top-28 space-y-6">
-                    <div class="rounded-2xl border border-white/10 bg-gray-500/10 p-4 sm:p-6 shadow-2xl backdrop-blur-lg">
+                    <div class="rounded-2xl border border-white/10 bg-gray-500/10 p-4 sm:p-6 xl:p-8 shadow-2xl backdrop-blur-lg">
                         <h2 class="text-lg font-semibold text-white">Order Summary</h2>
                         <div class="mt-4 space-y-4 text-sm">
                             <div class="flex items-center gap-4">
@@ -263,10 +263,20 @@
                                 <span>Discount (SAVE10)</span>
                                 <span id="discount-amount">-KES 0</span>
                             </div>
-                            <div class="border-t border-white/10 pt-2 font-semibold text-white">
-                                <div class="flex justify-between">
-                                    <span>Total</span>
-                                    <span id="total-amount">KES {{ $orderTotal ? number_format($orderTotal, 0) : '0' }}</span>
+                            <div class="border-t border-white/10 pt-4">
+                                <div class="bg-primary-500/10 border border-primary-500/20 rounded-lg p-4 xl:p-6">
+                                    <div class="text-center">
+                                        <div class="text-xs sm:text-sm text-primary-300/70 font-medium uppercase tracking-wide mb-2">Total Amount</div>
+                                        <div class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary-400 mb-2">
+                                            <span id="total-amount">KES {{ $orderTotal ? number_format($orderTotal, 0) : '0' }}</span>
+                                        </div>
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span class="text-xs sm:text-sm text-emerald-400 font-medium">Secure Payment</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

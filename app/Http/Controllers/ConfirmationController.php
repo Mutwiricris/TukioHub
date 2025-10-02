@@ -14,7 +14,7 @@ class ConfirmationController extends Controller
             // Validate session data exists and is recent (within 1 hour)
             $confirmationTimestamp = session('confirmation_timestamp');
             if (!$confirmationTimestamp || (now()->timestamp - $confirmationTimestamp) > 3600) {
-                return redirect()->route('Browse')
+                return redirect()->route('browse')
                     ->with('error', 'Confirmation session expired. Please contact support if you completed a payment.');
             }
 
@@ -30,7 +30,7 @@ class ConfirmationController extends Controller
 
             // Validate required data
             if (!$eventId || !$paymentReference || !$status) {
-                return redirect()->route('Browse')
+                return redirect()->route('browse')
                     ->with('error', 'Invalid confirmation data. Please contact support if you completed a payment.');
             }
 
@@ -38,7 +38,7 @@ class ConfirmationController extends Controller
             $event = Event::with(['venue', 'tickets.ticketType'])->find($eventId);
             
             if (!$event) {
-                return redirect()->route('Browse')
+                return redirect()->route('browse')
                     ->with('error', 'Event not found.');
             }
 
@@ -94,25 +94,38 @@ class ConfirmationController extends Controller
             $baseUrl = request()->getSchemeAndHttpHost();
             $qrText = $baseUrl . '/ticket/verify/' . $ticketId;
 
-            // Try simpler QR code generation
+            // Generate QR code using a simple approach
             try {
-                $qrCode = new \Endroid\QrCode\QrCode($qrText);
-                $qrCode->setSize(300);
-                $qrCode->setMargin(10);
+                // Create a simple QR code URL using a free service for PDF generation
+                $qrData = 'TICKET:' . $userTicket->reference_number . ':' . $userTicket->user_id . ':' . $userTicket->event_id;
+                $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($qrData);
                 
-                $writer = new \Endroid\QrCode\Writer\PngWriter();
-                $result = $writer->write($qrCode);
-                
-                $qrCodeBase64 = base64_encode($result->getString());
+                // Get QR code image data
+                $qrImageData = @file_get_contents($qrUrl);
+                if ($qrImageData) {
+                    $qrCodeBase64 = base64_encode($qrImageData);
+                } else {
+                    throw new \Exception('Failed to generate QR code from service');
+                }
             } catch (\Exception $e) {
-                // Fallback: generate simple text-based QR placeholder
+                // Fallback: create a simple placeholder image
                 \Log::error('QR Code generation failed: ' . $e->getMessage());
-                $qrCodeBase64 = base64_encode(file_get_contents('data:image/svg+xml;base64,' . base64_encode('
-                    <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="300" height="300" fill="white" stroke="black" stroke-width="2"/>
-                        <text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="12">QR Code: ' . $ticketId . '</text>
-                    </svg>
-                ')));
+                
+                // Create a simple white square with text as fallback
+                $img = imagecreate(300, 300);
+                $white = imagecolorallocate($img, 255, 255, 255);
+                $black = imagecolorallocate($img, 0, 0, 0);
+                imagefill($img, 0, 0, $white);
+                imagerectangle($img, 10, 10, 290, 290, $black);
+                
+                $text = 'QR: ' . substr($userTicket->reference_number, 0, 10);
+                imagestring($img, 3, 120, 140, $text, $black);
+                
+                ob_start();
+                imagepng($img);
+                $qrCodeBase64 = base64_encode(ob_get_contents());
+                ob_end_clean();
+                imagedestroy($img);
             }
 
             // Get customer data from session or user

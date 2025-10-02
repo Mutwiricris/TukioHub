@@ -14,6 +14,7 @@
                     <i data-lucide="ticket" class="h-5 w-5"></i>
                 </div>
                 <span class="text-lg font-semibold">Tukio <span class="text-primary-400">Hub</span></span>
+                <a href="{{ route('Browse') }}" class="text-primary-400 hover:text-primary-300 underline text-sm">Browse Events</a>
             </a>
             <a href="/account" class="text-xs text-gray-300 hover:text-white flex items-center gap-2">
                 My Account <i data-lucide="user" class="h-4 w-4"></i>
