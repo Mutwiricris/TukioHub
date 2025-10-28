@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create QR code data
     const baseUrl = window.location.origin;
-    const qrText = `ORDER:{{ $paymentReference ?? "CONF" }}:{{ $event->id }}:{{ auth()->id() ?? "GUEST" }}`;
+    const qrText = `{{ $paymentReference ?? "CONF" }}`;
 
     // Generate QR Code using external service
     const qrCodeElement = document.getElementById('qr-code');

@@ -104,7 +104,24 @@
 
                 <!-- Attendee Information -->
                 <div class="rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 p-6">
-                    <h2 class="text-xl font-bold text-white mb-6">Attendee Information</h2>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-white">Attendee Information</h2>
+                        @if(isset($userData) && $userData)
+                            <div class="flex items-center gap-2 text-sm text-primary-400 bg-primary-500/10 px-3 py-1 rounded-full">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Auto-filled from your profile
+                            </div>
+                        @else
+                            <div class="flex items-center gap-2 text-sm text-gray-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <a href="{{ route('register') }}" class="text-primary-400 hover:text-primary-300 underline">Create account</a> for faster checkout
+                            </div>
+                        @endif
+                    </div>
                     <form id="checkout-form" action="{{ route('checkout.process') }}" method="POST" class="space-y-6">
                         @csrf
                         <!-- Error Message Container -->
@@ -120,6 +137,7 @@
                             <div>
                                 <label for="firstName" class="block text-sm font-medium text-gray-300 mb-2">First Name</label>
                                 <input type="text" id="firstName" name="first_name" required
+                                       value="{{ old('first_name', $userData['first_name'] ?? '') }}"
                                        class="w-full rounded-lg bg-gray-700/50 border border-gray-600/50 px-4 py-3 text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all"
                                        placeholder="Enter your first name">
                                 <div id="firstName-error" class="hidden text-red-400 text-sm mt-1"></div>
@@ -127,6 +145,7 @@
                             <div>
                                 <label for="lastName" class="block text-sm font-medium text-gray-300 mb-2">Last Name</label>
                                 <input type="text" id="lastName" name="last_name" required
+                                       value="{{ old('last_name', $userData['last_name'] ?? '') }}"
                                        class="w-full rounded-lg bg-gray-700/50 border border-gray-600/50 px-4 py-3 text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all"
                                        placeholder="Enter your last name">
                                 <div id="lastName-error" class="hidden text-red-400 text-sm mt-1"></div>
@@ -136,6 +155,7 @@
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
                             <input type="email" id="email" name="email" required
+                                   value="{{ old('email', $userData['email'] ?? '') }}"
                                    class="w-full rounded-lg bg-gray-700/50 border border-gray-600/50 px-4 py-3 text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all"
                                    placeholder="your.email@example.com">
                             <div id="email-error" class="hidden text-red-400 text-sm mt-1"></div>
@@ -145,8 +165,9 @@
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
                             <input type="tel" id="phone" name="phone"
+                                   value="{{ old('phone', $userData['phone'] ?? '') }}"
                                    class="w-full rounded-lg bg-gray-700/50 border border-gray-600/50 px-4 py-3 text-white placeholder-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all"
-                                   placeholder="+1 (555) 123-4567">
+                                   placeholder="+254 700 000 000">
                             <div id="phone-error" class="hidden text-red-400 text-sm mt-1"></div>
                             <p class="text-sm text-gray-400 mt-2">Required for M-Pesa payments</p>
                         </div>

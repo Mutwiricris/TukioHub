@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Homepage with featured events
-Route::get('/', Browse::class)->name('home')->middleware('cache.response:120');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Browse events with search and filters
 Route::get('/browse', [BrowseController::class, 'index'])->name('Browse');

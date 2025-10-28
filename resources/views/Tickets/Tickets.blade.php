@@ -26,7 +26,7 @@
     <main class="mx-auto max-w-7xl px-4 py-8 sm:py-12">
         <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">My Tickets</h1>
         <p class="mt-2 text-gray-300">View your purchased tickets for upcoming and past events.</p>
-
+https://github.com/Mutwiricris/TukioHub.git
         {{-- Status Filter Tabs --}}
         <div class="mt-8 border-b border-white/10">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
@@ -51,25 +51,25 @@
         {{-- Tickets Grid --}}
         <div class="mt-8">
             <div class="grid gap-6 md:grid-cols-2">
-                
+
                 @forelse($userTickets as $userTicket)
                     <div class="flex gap-4 rounded-2xl border border-white/10 bg-gray-800/50 p-4 shadow-lg">
-                        <img src="{{ $userTicket->event->image_url ?? 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400' }}" 
+                        <img src="{{ $userTicket->event->image_url ?? 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400' }}"
                              alt="Event cover" class="h-28 w-24 rounded-lg object-cover" />
                         <div class="flex-grow">
                             <p class="text-xs text-primary-400">
-                                {{ $userTicket->event->date ? \Carbon\Carbon::parse($userTicket->event->date)->format('D, M j, Y @ g:i A') : 'Date TBA' }}
-                            </p>
+                                {{ $userTicket->event->start_date ? $userTicket->event->start_date->format('D, M j, Y @ g:i A') : 'Date TBA' }}
+                        </p>
                             <h3 class="font-semibold text-white mt-1">{{ $userTicket->event->name }}</h3>
                             <p class="text-xs text-gray-400 mt-1">{{ $userTicket->event->venue->name ?? 'Venue TBA' }}</p>
                             <div class="flex items-center gap-2 mt-2">
-                                <span class="text-xs text-gray-300">{{ $userTicket->quantity }}x {{ $userTicket->ticket->ticketType->name ?? 'Ticket' }}</span>
-                                <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium 
+                                <span class="text-xs text-gray-300">1x {{ $userTicket->ticket->ticketType->name ?? 'Ticket' }}</span>
+                                <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium
                                     {{ $userTicket->status === 'confirmed' ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400' }}">
                                     {{ ucfirst($userTicket->status) }}
                                 </span>
                             </div>
-                            <a href="/ticket/verify/{{ $userTicket->ticket_reference }}" 
+                            <a href="{{ route('user.tickets.show', $userTicket) }}"
                                class="mt-3 inline-block rounded-lg bg-primary-500 px-4 py-2 text-xs font-bold text-white transition hover:bg-primary-600">
                                 View Ticket
                             </a>
@@ -91,17 +91,17 @@
             <div id="tab-panel-past" class="ticket-tab-panel hidden grid gap-6 md:grid-cols-2">
                 @php
                     $pastTickets = $userTickets->filter(function($ticket) {
-                        return $ticket->event->date <= now();
+                        return $ticket->event->start_date <= now();
                     });
                 @endphp
-                
+
                 @forelse($pastTickets as $userTicket)
                     <div class="flex gap-4 rounded-2xl border border-white/10 bg-gray-800/50 p-4 shadow-lg filter grayscale opacity-60">
-                        <img src="{{ $userTicket->event->image_url ?? 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=400' }}" 
+                        <img src="{{ $userTicket->event->image_url ?? 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?q=80&w=400' }}"
                              alt="Event cover" class="h-28 w-24 rounded-lg object-cover" />
                         <div class="flex-grow">
                             <p class="text-xs text-gray-400">
-                                {{ $userTicket->event->date ? \Carbon\Carbon::parse($userTicket->event->date)->format('D, M j, Y @ g:i A') : 'Date TBA' }}
+                                {{ $userTicket->event->start_date ? $userTicket->event->start_date->format('D, M j, Y @ g:i A') : 'Date TBA' }}
                             </p>
                             <h3 class="font-semibold text-gray-300 mt-1">{{ $userTicket->event->name }}</h3>
                             <p class="text-xs text-gray-500 mt-1">{{ $userTicket->event->venue->name ?? 'Venue TBA' }}</p>
@@ -113,7 +113,7 @@
                                 <span class="text-xs {{ $userTicket->status_color }}">{{ $userTicket->status_label }}</span>
                             </div>
                             <div class="flex items-center gap-2 mt-3">
-                                <a href="{{ route('confirmation.download', $userTicket->id) }}" 
+                                <a href="{{ route('confirmation.download', $userTicket->id) }}"
                                    class="inline-flex items-center gap-1 rounded-lg bg-primary-500 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-primary-600">
                                     <i data-lucide="download" class="h-3 w-3"></i>
                                     Download

@@ -212,7 +212,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const ticketData = 'TICKET:{{ $ticket->reference_number }}:{{ $ticket->user_id }}:{{ $ticket->event_id }}';
+    const ticketData = '{{ $ticket->reference_number }}';
     
     function generateCodes() {
         // Generate QR Code using external service

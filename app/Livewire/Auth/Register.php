@@ -10,12 +10,14 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
+#[Layout('components.layouts.auth.fullscreen')]
 class Register extends Component
 {
     public string $name = '';
 
     public string $email = '';
+
+    public string $phone = '';
 
     public string $password = '';
 
@@ -29,6 +31,7 @@ class Register extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['required', 'string', 'max:20', 'regex:/^(\+254|0)[17]\d{8}$/'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 

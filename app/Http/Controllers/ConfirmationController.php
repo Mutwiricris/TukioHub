@@ -97,7 +97,7 @@ class ConfirmationController extends Controller
             // Generate QR code using a simple approach
             try {
                 // Create a simple QR code URL using a free service for PDF generation
-                $qrData = 'TICKET:' . $userTicket->reference_number . ':' . $userTicket->user_id . ':' . $userTicket->event_id;
+                $qrData = $userTicket->reference_number;
                 $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($qrData);
                 
                 // Get QR code image data

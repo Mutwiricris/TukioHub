@@ -84,7 +84,22 @@ class CheckoutController extends Controller
                 'checkout_timestamp' => now()->timestamp
             ]);
 
-            return view('checkout.checkout', compact('event', 'validatedTickets', 'totalAmount'));
+            // Get authenticated user data for auto-filling
+            $user = auth()->user();
+            $userData = null;
+            
+            if ($user) {
+                // Split the full name into first and last name
+                $nameParts = explode(' ', trim($user->name), 2);
+                $userData = [
+                    'first_name' => $nameParts[0] ?? '',
+                    'last_name' => $nameParts[1] ?? '',
+                    'email' => $user->email ?? '',
+                    'phone' => $user->phone ?? ''
+                ];
+            }
+
+            return view('checkout.checkout', compact('event', 'validatedTickets', 'totalAmount', 'userData'));
 
         } catch (\Exception $e) {
             \Log::error('Checkout error: ' . $e->getMessage());
