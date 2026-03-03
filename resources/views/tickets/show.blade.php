@@ -3,26 +3,36 @@
 @section('content')
 <div class="min-h-screen bg-gray-900 text-gray-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
-        <!-- Back button -->
-        <div class="mb-6">
-            <a href="{{ route('user.tickets.index') }}" class="inline-flex items-center text-green-400 hover:text-green-300">
-                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <!-- Enhanced Back button -->
+        <div class="mb-8">
+            <a href="{{ route('user.tickets.index') }}" class="group inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/50 border border-gray-700/50 text-gray-300 hover:text-white hover:bg-gray-800 hover:border-primary-500/30 transition-all duration-300">
+                <svg class="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                Back to My Tickets
+                <span class="font-medium">Back to My Tickets</span>
             </a>
         </div>
 
-        <!-- Ticket header -->
-        <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-8">
-            <div class="p-6 sm:p-8">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold text-white">{{ $ticket->event->name }}</h1>
-                        <p class="mt-1 text-green-400">{{ $ticket->ticket->ticketType->name ?? 'General Admission' }} Ticket</p>
+        <!-- Enhanced Ticket header -->
+        <div class="rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md shadow-2xl overflow-hidden mb-10">
+            <div class="p-8">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+                    <div class="flex items-start gap-4 flex-1">
+                        <div class="p-3 rounded-2xl bg-gradient-to-br from-primary-500/20 to-emerald-500/20 border border-primary-500/30 flex-shrink-0">
+                            <svg class="w-8 h-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">{{ $ticket->event->name }}</h1>
+                            <p class="text-lg text-primary-400 font-semibold">{{ $ticket->ticket->ticketType->name ?? 'General Admission' }} Ticket</p>
+                        </div>
                     </div>
-                    <div class="mt-4 sm:mt-0">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $ticket->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold border {{ $ticket->status === 'active' ? 'bg-green-500/20 border-green-500/30 text-green-400' : 'bg-amber-500/20 border-amber-500/30 text-amber-400' }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
                             {{ ucfirst($ticket->status) }}
                         </span>
                     </div>
@@ -33,52 +43,69 @@
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 xl:gap-10 2xl:gap-12">
             <!-- Ticket details -->
             <div class="xl:col-span-2 space-y-6 lg:space-y-8 xl:space-y-10">
-                <!-- Event Info Card -->
-                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4 sm:p-6">
-                        <h2 class="text-lg font-semibold text-white mb-4">Event Information</h2>
-                        <div class="space-y-4">
-                            <div class="flex">
+                <!-- Enhanced Event Info Card -->
+                <div class="rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md shadow-2xl overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 rounded-xl bg-primary-500/20 border border-primary-500/30">
+                                <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-white">Event Information</h2>
+                        </div>
+                        <div class="space-y-5">
+                            <div class="flex gap-4 p-5 rounded-xl bg-gray-700/30 border border-gray-600/50 hover:bg-gray-700/40 transition-colors">
                                 <div class="flex-shrink-0">
-                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
+                                    <div class="p-2.5 rounded-lg bg-primary-500/20 border border-primary-500/30">
+                                        <svg class="h-6 w-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
                                 </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-400">Date & Time</p>
-                                    <p class="text-sm text-white">
-                                        {{ $ticket->event->start_date->format('l, F j, Y') }}<br>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-1.5">Date & Time</p>
+                                    <p class="text-base text-white font-semibold mb-1">
+                                        {{ $ticket->event->start_date->format('l, F j, Y') }}
+                                    </p>
+                                    <p class="text-sm text-gray-300">
                                         {{ $ticket->event->start_date->format('g:i A') }} - {{ $ticket->event->end_date->format('g:i A') }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="flex">
+                            <div class="flex gap-4 p-5 rounded-xl bg-gray-700/30 border border-gray-600/50 hover:bg-gray-700/40 transition-colors">
                                 <div class="flex-shrink-0">
-                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
+                                    <div class="p-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30">
+                                        <svg class="h-6 w-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
                                 </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-400">Location</p>
-                                    <p class="text-sm text-white">
-                                        {{ $ticket->event->venue->name ?? 'Online Event' }}<br>
-                                        @if($ticket->event->venue)
-                                            {{ $ticket->event->venue->address }}, {{ $ticket->event->venue->city }}, {{ $ticket->event->venue->country }}
-                                        @endif
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-1.5">Location</p>
+                                    <p class="text-base text-white font-semibold mb-1">
+                                        {{ $ticket->event->venue->name ?? 'Online Event' }}
                                     </p>
+                                    @if($ticket->event->venue)
+                                    <p class="text-sm text-gray-300">
+                                        {{ $ticket->event->venue->address }}, {{ $ticket->event->venue->city }}, {{ $ticket->event->venue->country }}
+                                    </p>
+                                    @endif
                                 </div>
                             </div>
                             @if($ticket->event->description)
-                            <div class="flex">
+                            <div class="flex gap-4 p-5 rounded-xl bg-gray-700/30 border border-gray-600/50 hover:bg-gray-700/40 transition-colors">
                                 <div class="flex-shrink-0">
-                                    <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                                    <div class="p-2.5 rounded-lg bg-blue-500/20 border border-blue-500/30">
+                                        <svg class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
                                 </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-400">About the Event</p>
-                                    <p class="text-sm text-gray-300">{{ $ticket->event->description }}</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-1.5">About the Event</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">{{ $ticket->event->description }}</p>
                                 </div>
                             </div>
                             @endif
@@ -86,123 +113,180 @@
                     </div>
                 </div>
 
-                <!-- Ticket Actions -->
-                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4 sm:p-6">
-                        <h2 class="text-lg font-semibold text-white mb-4">Ticket Actions</h2>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                            <button id="download-ticket-pdf" class="inline-flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <!-- Enhanced Ticket Actions -->
+                <div class="rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md shadow-2xl overflow-hidden">
+                    <div class="p-6 sm:p-8">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 rounded-xl bg-primary-500/20 border border-primary-500/30">
+                                <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-white">Quick Actions</h2>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button id="download-ticket-pdf" class="group inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
-                                Download PDF
+                                <span>Download PDF</span>
+                                <svg class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
                             </button>
-                            <button class="inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                <svg class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <button class="group inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border border-gray-600/50 bg-gray-700/30 text-gray-300 font-bold hover:bg-gray-700/50 hover:border-gray-500/50 hover:text-white transition-all">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                Save to Wallet
+                                <span>Save to Wallet</span>
                             </button>
                             @if($ticket->status === 'active')
-                            <button class="inline-flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                            <button class="group inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 font-bold hover:bg-blue-500/30 hover:border-blue-400/50 transition-all">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                                 </svg>
-                                Transfer Ticket
+                                <span>Transfer Ticket</span>
                             </button>
                             @endif
-                            <a href="{{ route('Eventsdetails', $ticket->event->slug) }}" class="inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                <svg class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <a href="{{ route('Eventsdetails', $ticket->event->slug) }}" class="group inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border border-gray-600/50 bg-gray-700/30 text-gray-300 font-bold hover:bg-gray-700/50 hover:border-gray-500/50 hover:text-white transition-all">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
-                                View Event
+                                <span>View Event</span>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Ticket Card -->
+            <!-- Enhanced Ticket Card -->
             <div class="xl:col-span-1">
-                <div class="bg-gradient-to-br from-green-500 to-teal-600 rounded-xl shadow-lg overflow-hidden">
-                    <div class="p-4 sm:p-6 text-white">
-                        <div class="flex justify-between items-start">
-                            <div class="flex-1 min-w-0">
-                                <h3 class="text-base sm:text-lg font-bold truncate">{{ $ticket->event->name }}</h3>
-                                <p class="text-xs sm:text-sm opacity-80 truncate">{{ $ticket->ticket->ticketType->name ?? 'General Admission' }}</p>
-                            </div>
-                            <div class="text-right flex-shrink-0 ml-2">
-                                <div class="text-xs opacity-80">Ticket #{{ $ticket->ticket_number ?? substr($ticket->reference_number, -6) }}</div>
-                                <div class="text-xs opacity-80">{{ $ticket->created_at->format('M j, Y') }}</div>
+                <div class="sticky top-6">
+                    <div class="rounded-3xl border-2 border-gray-700/50 bg-gradient-to-br from-primary-500 via-emerald-500 to-teal-600 shadow-2xl overflow-hidden backdrop-blur-md">
+                        <!-- Ticket Header -->
+                        <div class="relative p-6 text-white bg-gradient-to-br from-black/20 to-transparent">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16"></div>
+                            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-12 -mb-12"></div>
+
+                            <div class="relative">
+                                <div class="flex items-start justify-between gap-3 mb-4">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 mb-3">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                                            </svg>
+                                            <span class="text-sm font-bold">E-TICKET</span>
+                                        </div>
+                                        <h3 class="text-xl font-bold line-clamp-2 mb-1">{{ $ticket->event->name }}</h3>
+                                        <p class="text-sm opacity-90">{{ $ticket->ticket->ticketType->name ?? 'General Admission' }}</p>
+                                    </div>
+                                    <div class="text-right text-xs opacity-80 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/20">
+                                        <div class="font-bold">#{{ substr($ticket->reference_number, -6) }}</div>
+                                        <div class="mt-1">{{ $ticket->created_at->format('M j, Y') }}</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="mt-6 text-center">
-                            <!-- QR Code Section -->
-                            <div class="bg-white p-6 rounded-2xl shadow-xl border-4 border-white/20 inline-block backdrop-blur-sm">
-                                <div class="mb-3">
-                                    <div class="text-gray-800 font-bold text-sm uppercase tracking-wider">Entry Pass</div>
-                                </div>
-                                <div id="qrcode-{{ $ticket->id }}" class="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 2xl:w-72 2xl:h-72 flex items-center justify-center bg-gray-50 rounded-xl border-2 border-gray-200">
-                                    <div class="text-gray-500 text-xs sm:text-sm animate-pulse">Loading QR Code...</div>
-                                </div>
-                                <div class="mt-3 text-gray-600 text-xs font-medium">
-                                    Scan at entrance
+
+                        <!-- QR Code Section -->
+                        <div class="px-6 py-8 text-center bg-gradient-to-br from-white/95 to-white/90 backdrop-blur-sm">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-500 to-emerald-500 text-white text-sm font-bold mb-4 shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                                </svg>
+                                <span>SCAN AT ENTRY</span>
+                            </div>
+
+                            <div class="relative inline-block">
+                                <div class="absolute -inset-4 bg-gradient-to-r from-primary-500/20 via-emerald-500/20 to-teal-500/20 rounded-3xl blur-xl"></div>
+                                <div class="relative bg-white p-6 rounded-2xl shadow-2xl border-4 border-primary-500/30">
+                                    <div id="qrcode-{{ $ticket->id }}" class="w-52 h-52 sm:w-60 sm:h-60 lg:w-64 lg:h-64 xl:w-72 xl:h-72 flex items-center justify-center bg-gray-50 rounded-xl">
+                                        <div class="text-center">
+                                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mb-2"></div>
+                                            <div class="text-gray-500 text-sm font-medium">Loading QR Code...</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Barcode Section -->
-                            <div class="mt-6 bg-white/90 backdrop-blur-sm p-4 xl:p-6 rounded-xl shadow-lg border border-white/30 inline-block min-w-[280px] xl:min-w-[320px] 2xl:min-w-[360px]">
-                                <div class="text-gray-700 text-xs font-semibold uppercase tracking-wide mb-2">Ticket Reference</div>
+                            <div class="mt-8 bg-white p-5 rounded-2xl shadow-lg border-2 border-gray-200/50 inline-block min-w-[280px]">
+                                <div class="text-gray-600 text-xs font-bold uppercase tracking-wider mb-3">Ticket Reference</div>
                                 <div id="barcode-{{ $ticket->id }}" class="text-center">
-                                    <div class="text-gray-500 text-xs animate-pulse">Loading Reference...</div>
+                                    <div class="text-gray-500 text-xs animate-pulse">Loading...</div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="mt-4 sm:mt-6 pt-4 border-t border-white/20">
-                            <div class="flex justify-between text-xs sm:text-sm">
-                                <span class="opacity-80">Date</span>
-                                <span class="font-medium">{{ $ticket->event->start_date->format('M j, Y') }}</span>
-                            </div>
-                            <div class="flex justify-between text-xs sm:text-sm mt-2">
-                                <span class="opacity-80">Time</span>
-                                <span class="font-medium">{{ $ticket->event->start_date->format('g:i A') }}</span>
-                            </div>
-                            <div class="flex justify-between text-xs sm:text-sm mt-2">
-                                <span class="opacity-80">Location</span>
-                                <span class="font-medium text-right truncate ml-2">{{ $ticket->event->venue->name ?? 'Online' }}</span>
+
+                        <!-- Event Details -->
+                        <div class="px-6 py-6 bg-gradient-to-br from-black/30 to-black/20 backdrop-blur-sm text-white border-t border-white/10">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+                                    <div class="flex items-center gap-2 text-sm opacity-80">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span>Date</span>
+                                    </div>
+                                    <span class="font-bold">{{ $ticket->event->start_date->format('M j, Y') }}</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+                                    <div class="flex items-center gap-2 text-sm opacity-80">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>Time</span>
+                                    </div>
+                                    <span class="font-bold">{{ $ticket->event->start_date->format('g:i A') }}</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+                                    <div class="flex items-center gap-2 text-sm opacity-80">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        </svg>
+                                        <span>Venue</span>
+                                    </div>
+                                    <span class="font-bold text-right truncate ml-2">{{ $ticket->event->venue->name ?? 'Online' }}</span>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="mt-4 sm:mt-6 pt-4 border-t border-white/20">
-                            <div class="text-center">
-                                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 xl:p-8 border border-white/20">
-                                    <div class="text-xs sm:text-sm text-white/70 font-medium uppercase tracking-wide mb-2">Total Amount</div>
-                                    <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
-                                        Ksh {{ number_format($ticket->price_paid ?? $ticket->ticket->price ?? 0, 2) }}
-                                    </div>
-                                    <div class="flex items-center justify-center space-x-2">
-                                        <svg class="w-4 h-4 text-green-300" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <p class="text-xs sm:text-sm text-green-300 font-medium">
-                                            @if($ticket->purchased_at)
-                                                Paid on {{ $ticket->purchased_at->format('M j, Y') }}
-                                            @else
-                                                Issued on {{ $ticket->created_at->format('M j, Y') }}
-                                            @endif
-                                        </p>
-                                    </div>
+
+                        <!-- Price Section -->
+                        <div class="px-6 py-6 bg-gradient-to-br from-black/40 to-black/30 backdrop-blur-sm text-white">
+                            <div class="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                                <div class="text-sm text-white/70 font-bold uppercase tracking-wider mb-2">Total Amount Paid</div>
+                                <div class="text-4xl font-bold mb-3 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+                                    KES {{ number_format($ticket->price_paid ?? $ticket->ticket->price ?? 0, 0) }}
+                                </div>
+                                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 border border-green-400/30">
+                                    <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-sm text-green-400 font-medium">
+                                        @if($ticket->purchased_at)
+                                            Paid {{ $ticket->purchased_at->format('M j, Y') }}
+                                        @else
+                                            Issued {{ $ticket->created_at->format('M j, Y') }}
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mt-4 text-center">
-                    <p class="text-xs text-gray-400">Need help? <a href="#" class="text-green-400 hover:text-green-300">Contact support</a></p>
+
+                    <!-- Support Link -->
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-400">
+                            Need help?
+                            <a href="#" class="text-primary-400 hover:text-primary-300 font-semibold inline-flex items-center gap-1 group">
+                                <span>Contact support</span>
+                                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

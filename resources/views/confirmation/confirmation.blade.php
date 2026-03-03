@@ -25,71 +25,90 @@
 {{--        </div>--}}
 {{--    </header>--}}
 
-    {{-- Steps Indicator --}}
-    <div class="bg-gray-800/50 border-b mt-6 border-white/10">
-        <div class="mx-auto max-w-7xl px-4 py-3">
-            <ol class="flex items-center justify-center gap-3 text-xs sm:gap-6">
-                <li class="flex items-center gap-2 text-gray-400">
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-xs font-bold text-white"><i data-lucide="check" class="h-4 w-4"></i></span>
-                    <span class="font-medium">Details</span>
-                </li>
-                <li class="flex items-center gap-2 text-gray-400">
-                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-xs font-bold text-white"><i data-lucide="check" class="h-4 w-4"></i></span>
-                    <span class="font-medium">Payment</span>
-                </li>
+    {{-- Enhanced Steps Indicator --}}
+    <div class="bg-gray-800/30 border-b mt-6 border-gray-700/50">
+        <div class="mx-auto max-w-7xl px-4 py-8">
+            <ol class="flex items-center justify-center gap-4 sm:gap-8">
                 <li class="flex items-center gap-2">
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white">3</span>
-                    <span class="font-medium text-white">Confirmation</span>
+                    <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/50 text-emerald-400 font-bold shadow-lg"><i data-lucide="check" class="h-6 w-6"></i></span>
+                    <span class="hidden sm:block font-medium text-gray-400">Details</span>
+                </li>
+                <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <li class="flex items-center gap-2">
+                     <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/50 text-emerald-400 font-bold shadow-lg"><i data-lucide="check" class="h-6 w-6"></i></span>
+                    <span class="hidden sm:block font-medium text-gray-400">Payment</span>
+                </li>
+                <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <li class="flex items-center gap-2">
+                    <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-emerald-500 text-white font-bold text-lg shadow-lg border-2 border-white/10">3</span>
+                    <span class="hidden sm:block font-bold text-white">Confirmation</span>
                 </li>
             </ol>
         </div>
     </div>
 
-    {{-- Main Content --}}
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:py-12">
-        <div class="text-center">
+    {{-- Enhanced Main Content --}}
+    <main class="mx-auto max-w-7xl px-4 py-12 sm:py-16">
+        <div class="text-center mb-12">
             @if($paymentMethod === 'cash' && $status === 'reserved')
-            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-500/10">
-                <i data-lucide="clock" class="h-10 w-10 text-amber-400"></i>
+            <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border-2 border-amber-500/50 shadow-2xl mb-6">
+                <i data-lucide="clock" class="h-12 w-12 text-amber-400"></i>
             </div>
-            <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">Tickets Reserved!</h1>
-            <p class="mt-2 text-gray-300">Your tickets are reserved for 24 hours. Complete payment at our office.</p>
-            <p class="mt-4 text-sm text-gray-400">Reservation Reference: <span class="font-medium text-gray-200">{{ $reservationReference ?? 'RES-UNKNOWN' }}</span></p>
+            <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">Tickets Reserved!</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-6">Your tickets are reserved for 24 hours. Complete payment at our office.</p>
+            <div class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <span class="text-sm font-medium text-gray-400">Reservation Reference:</span>
+                <span class="font-bold text-amber-400">{{ $reservationReference ?? 'RES-UNKNOWN' }}</span>
+            </div>
             @else
-            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
-                <i data-lucide="check-circle-2" class="h-10 w-10 text-emerald-400"></i>
+            <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-emerald-500/20 to-primary-500/20 border-2 border-emerald-500/50 shadow-2xl mb-6 animate-bounce">
+                <i data-lucide="check-circle-2" class="h-12 w-12 text-emerald-400"></i>
             </div>
-            <h1 class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">Payment Successful!</h1>
-            <p class="mt-2 text-gray-300">Your tickets are confirmed. See you at the festival!</p>
-            <p class="mt-4 text-sm text-gray-400">Payment Reference: <span class="font-medium text-gray-200">{{ $paymentReference ?? 'PAY-UNKNOWN' }}</span></p>
+            <h1 class="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4">Payment Successful!</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-6">Your tickets are confirmed. See you at the event!</p>
+            <div class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                <span class="text-sm font-medium text-gray-400">Payment Reference:</span>
+                <span class="font-bold text-emerald-400">{{ $paymentReference ?? 'PAY-UNKNOWN' }}</span>
+            </div>
             @endif
         </div>
 
-        {{-- Digital Ticket --}}
-        <div class="mt-8 sm:mt-12">
-            <div class="rounded-2xl border-2 border-dashed border-gray-600/50 bg-gray-800/30 p-1 shadow-2xl backdrop-blur-lg relative overflow-hidden max-w-5xl mx-auto">
-                 <!-- Ticket perforations -->
-                 <div class="absolute -top-4 left-1/2 -ml-4 h-8 w-8 rounded-full bg-gray-900"></div>
-                 <div class="absolute -bottom-4 left-1/2 -ml-4 h-8 w-8 rounded-full bg-gray-900"></div>
+        {{-- Enhanced Digital Ticket --}}
+        <div class="mt-12">
+            <div class="relative max-w-5xl mx-auto">
+                <!-- Ticket perforations -->
+                <div class="absolute -top-6 left-1/2 -ml-6 h-12 w-12 rounded-full bg-gray-900 z-10"></div>
+                <div class="absolute -bottom-6 left-1/2 -ml-6 h-12 w-12 rounded-full bg-gray-900 z-10"></div>
 
-                 <!-- Side perforations -->
-                 <div class="absolute -left-2 top-1/4 h-4 w-4 rounded-full bg-gray-900"></div>
-                 <div class="absolute -right-2 top-1/4 h-4 w-4 rounded-full bg-gray-900"></div>
-                 <div class="absolute -left-2 top-3/4 h-4 w-4 rounded-full bg-gray-900"></div>
-                 <div class="absolute -right-2 top-3/4 h-4 w-4 rounded-full bg-gray-900"></div>
+                <div class="rounded-3xl border-2 border-dashed border-primary-500/30 bg-gradient-to-br from-gray-800/80 to-gray-800/60 p-2 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+                    <!-- Side perforations -->
+                    <div class="absolute -left-3 top-1/4 h-6 w-6 rounded-full bg-gray-900"></div>
+                    <div class="absolute -right-3 top-1/4 h-6 w-6 rounded-full bg-gray-900"></div>
+                    <div class="absolute -left-3 top-3/4 h-6 w-6 rounded-full bg-gray-900"></div>
+                    <div class="absolute -right-3 top-3/4 h-6 w-6 rounded-full bg-gray-900"></div>
 
-                 <div class="rounded-xl bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 xl:p-8 border border-gray-700/30 ticket-container">
-                    <div class="gap-6 lg:gap-8 xl:gap-10 sm:flex">
-                        <div class="flex-shrink-0 text-center sm:border-r sm:border-dashed sm:border-gray-600/50 sm:pr-6">
-                            <p class="text-xs text-primary-400 font-medium mb-2">Scan at Entry</p>
-                            <div class="flex justify-center">
-                                <div id="qr-code" class="mt-2 rounded-lg border-2 border-gray-600/30 mx-auto bg-white p-4 xl:p-6">
-                                    <div class="w-48 h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 2xl:w-72 2xl:h-72 flex items-center justify-center text-gray-500 text-sm">
-                                        Loading QR Code...
+                    <div class="rounded-2xl bg-gradient-to-br from-gray-800/90 to-gray-900/90 p-8 xl:p-10 border border-gray-700/50 ticket-container">
+                        <div class="gap-8 lg:gap-10 xl:gap-12 sm:flex items-center">
+                            <!-- Enhanced QR Code Section -->
+                            <div class="flex-shrink-0 text-center sm:border-r sm:border-dashed sm:border-gray-600/50 sm:pr-8 mb-8 sm:mb-0">
+                                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500/10 border border-primary-500/30 mb-4">
+                                    <svg class="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                                    </svg>
+                                    <span class="text-xs font-bold text-primary-400">Scan at Entry</span>
+                                </div>
+                                <div class="flex justify-center">
+                                    <div id="qr-code" class="rounded-2xl border-4 border-primary-500/30 mx-auto bg-white p-6 shadow-2xl hover:border-primary-500/50 transition-all">
+                                        <div class="w-48 h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 flex items-center justify-center text-gray-500 text-sm font-medium">
+                                            Loading QR Code...
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="mt-6 flex-grow sm:mt-0">
                             <div class="mb-4">
                                 <h2 class="text-lg font-bold text-white mb-1">Event Details</h2>

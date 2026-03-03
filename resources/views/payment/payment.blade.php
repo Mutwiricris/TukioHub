@@ -6,34 +6,39 @@
 
 @section('content')
 <div class="bg-gray-900 text-white min-h-screen">
-    {{-- Header --}}
-    <header class="border-b border-white/10 bg-gray-900/80 backdrop-blur-lg sticky top-0 z-20">
-        <div class="mx-auto flex max-w-7xl items-center justify-end px-4 py-4 mx-2">
-
-            <div class="flex items-center gap-2 text-xs text-gray-300">
-                <i data-lucide="shield-check" class="h-4 w-4 text-emerald-400"></i>
-                Secure Checkout
+    {{-- Enhanced Header --}}
+    <header class="border-b border-gray-700/50 bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md sticky top-0 z-20">
+        <div class="mx-auto flex max-w-7xl items-center justify-end px-4 py-5">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                <i data-lucide="shield-check" class="h-5 w-5 text-emerald-400"></i>
+                <span class="text-sm font-bold text-emerald-400">Secure Checkout</span>
             </div>
         </div>
     </header>
 
-    {{-- Steps Indicator --}}
-    <div class="bg-gray-800/50 border-b border-white/10">
-        <div class="mx-auto max-w-7xl px-4 py-3">
-            <ol class="flex items-center justify-center gap-3 text-xs sm:gap-6">
+    {{-- Enhanced Steps Indicator --}}
+    <div class="bg-gray-800/30 border-b border-gray-700/50">
+        <div class="mx-auto max-w-7xl px-4 py-8">
+            <ol class="flex items-center justify-center gap-4 sm:gap-8">
                 <li class="flex items-center gap-2 text-gray-400">
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-xs font-bold text-white">
-                        <i data-lucide="check" class="h-4 w-4"></i>
+                    <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 border-2 border-emerald-500/50 text-emerald-400 font-bold shadow-lg">
+                        <i data-lucide="check" class="h-6 w-6"></i>
                     </span>
-                    <span class="font-medium">Details</span>
+                    <span class="hidden sm:block font-medium">Details</span>
                 </li>
+                <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
                 <li class="flex items-center gap-2">
-                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white">2</span>
-                    <span class="font-medium text-white">Payment</span>
+                     <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-emerald-500 text-white font-bold text-lg shadow-lg border-2 border-white/10">2</span>
+                    <span class="hidden sm:block font-bold text-white">Payment</span>
                 </li>
+                <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
                 <li class="flex items-center gap-2 text-gray-500">
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-xs font-bold">3</span>
-                    <span class="font-medium">Confirmation</span>
+                    <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-700/50 border-2 border-gray-600/50 text-gray-400 font-bold text-lg">3</span>
+                    <span class="hidden sm:block font-medium">Confirmation</span>
                 </li>
             </ol>
         </div>
@@ -43,26 +48,31 @@
     <section class="mx-auto max-w-7xl px-4 py-8 sm:py-12">
         <div class="grid gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 lg:grid-cols-3">
 
-            {{-- Left Column: Payment Form --}}
+            {{-- Enhanced Left Column: Payment Form --}}
             <div class="lg:col-span-2">
-                <div class="rounded-2xl border border-white/10 bg-gray-500/10 p-4 sm:p-6 xl:p-8 shadow-2xl backdrop-blur-lg">
-                    <h2 class="text-lg font-semibold text-white">Choose Payment Method</h2>
+                <div class="rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/60 to-gray-800/40 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
+                    <div class="flex items-center gap-3 mb-6">
+                        <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                        <h2 class="text-2xl font-bold text-white">Choose Payment Method</h2>
+                    </div>
 
-                    {{-- Payment Tabs --}}
-                    <div class="mt-4 border-b border-white/10">
-                        <nav id="payment-tabs" class="-mb-px flex space-x-4 sm:space-x-6 xl:space-x-8" aria-label="Tabs">
-                            <button class="payment-tab active whitespace-nowrap border-b-2 border-primary-500 text-primary-400 px-1 py-3 text-sm font-medium flex items-center gap-2" data-tab="mpesa">
-                                <i data-lucide="smartphone" class="h-5 w-5"></i> M-Pesa
+                    {{-- Enhanced Payment Tabs --}}
+                    <div class="mt-6 border-b border-gray-700/50">
+                        <nav id="payment-tabs" class="-mb-px flex space-x-2 sm:space-x-4" aria-label="Tabs">
+                            <button class="payment-tab active whitespace-nowrap border-b-2 border-primary-500 text-primary-400 px-4 py-3 text-sm font-bold flex items-center gap-2 transition-all" data-tab="mpesa">
+                                <i data-lucide="smartphone" class="h-5 w-5"></i>
+                                <span class="hidden sm:inline">M-Pesa</span>
                             </button>
-                            <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-1 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-gray-300 hover:text-white flex items-center gap-2" data-tab="card">
-                                <i data-lucide="credit-card" class="h-5 w-5"></i> Card
+                            <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-400 transition-all hover:border-primary-500/50 hover:text-primary-400 flex items-center gap-2" data-tab="card">
+                                <i data-lucide="credit-card" class="h-5 w-5"></i>
+                                <span class="hidden sm:inline">Card</span>
                             </button>
-                            <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-1 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-gray-300 hover:text-white flex items-center gap-2" data-tab="bank_transfer">
-                                <i data-lucide="building-2" class="h-5 w-5"></i> Bank Transfer
+                            <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-400 transition-all hover:border-primary-500/50 hover:text-primary-400 flex items-center gap-2" data-tab="bank_transfer">
+                                <i data-lucide="building-2" class="h-5 w-5"></i>
+                                <span class="hidden sm:inline">Bank</span>
                             </button>
-                            <!-- <button class="payment-tab whitespace-nowrap border-b-2 border-transparent px-1 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-gray-300 hover:text-white flex items-center gap-2" data-tab="cash">
-                                <i data-lucide="banknote" class="h-5 w-5"></i> Cash
-                            </button> -->
                         </nav>
                     </div>
 

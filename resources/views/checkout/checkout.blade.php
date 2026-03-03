@@ -2,61 +2,61 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-900">
-    <!-- Header with Security Badge -->
-    <div class="border-b border-gray-700/50 bg-gray-800/50 backdrop-blur-sm">
-        <div class="mx-auto max-w-7xl px-4 py-4">
+    <!-- Enhanced Header with Security Badge -->
+    <div class="border-b border-gray-700/50 bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md">
+        <div class="mx-auto max-w-7xl px-4 py-5">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <a href="javascript:history.back()" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="javascript:history.back()" class="flex items-center gap-2 text-gray-400 hover:text-primary-400 transition-colors group">
+                        <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                        Back to Event
+                        <span class="font-medium">Back to Event</span>
                     </a>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-gray-300">
-                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                     </svg>
-                    Secure Checkout
+                    <span class="text-sm font-bold text-emerald-400">Secure Checkout</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Progress Steps -->
+    <!-- Enhanced Progress Steps -->
     <div class="border-b border-gray-700/50 bg-gray-800/30">
-        <div class="mx-auto max-w-7xl px-4 py-6">
+        <div class="mx-auto max-w-7xl px-4 py-8">
             <div class="flex items-center justify-center">
-                <ol class="flex items-center space-x-8">
+                <ol class="flex items-center space-x-4 sm:space-x-8">
                     <li class="flex items-center">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-500 text-white font-bold">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-emerald-500 text-white font-bold text-lg shadow-lg border-2 border-white/10">
                                 1
                             </div>
-                            <span class="text-white font-medium">Checkout</span>
+                            <span class="hidden sm:block text-white font-bold">Checkout</span>
                         </div>
-                        <svg class="ml-4 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="ml-4 h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </li>
                     <li class="flex items-center">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-700 text-gray-400 font-bold">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-700/50 border-2 border-gray-600/50 text-gray-400 font-bold text-lg">
                                 2
                             </div>
-                            <span class="text-gray-400 font-medium">Payment</span>
+                            <span class="hidden sm:block text-gray-400 font-medium">Payment</span>
                         </div>
-                        <svg class="ml-4 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="ml-4 h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </li>
                     <li class="flex items-center">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-700 text-gray-400 font-bold">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-700/50 border-2 border-gray-600/50 text-gray-400 font-bold text-lg">
                                 3
                             </div>
-                            <span class="text-gray-400 font-medium">Confirmation</span>
+                            <span class="hidden sm:block text-gray-400 font-medium">Confirmation</span>
                         </div>
                     </li>
                 </ol>
@@ -68,57 +68,76 @@
     <div class="mx-auto max-w-7xl px-4 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Main Form -->
-            <div class="lg:col-span-2 space-y-8">
-                <!-- Event Summary -->
-                <div class="rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 p-6">
-                    <h2 class="text-xl font-bold text-white mb-4">Event Summary</h2>
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Enhanced Event Summary -->
+                <div class="rounded-2xl bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md border border-gray-700/50 p-6 shadow-2xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <h2 class="text-xl font-bold text-white">Event Summary</h2>
+                    </div>
                     <div class="flex items-center gap-4">
                         <img id="event-image" src="@if(isset($event) && $event->image_url){{ $event->image_url }}@else https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400 @endif"
                              alt="Event cover"
-                             class="h-20 w-32 rounded-xl object-cover">
+                             class="h-24 w-36 rounded-2xl object-cover border-2 border-gray-700/50 shadow-lg">
                         <div class="flex-1">
-                            <h3 id="event-name" class="text-lg font-semibold text-white">
+                            <h3 id="event-name" class="text-lg font-bold text-white mb-2">
                                 @if(isset($event))
                                     {{ $event->name }}
                                 @else
                                     Loading Event...
                                 @endif
                             </h3>
-                            <p id="event-date" class="text-gray-400 mt-1">
-                                @if(isset($event) && $event->date)
-                                    {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y • g:i A') }}
-                                @else
-                                    Date TBA
-                                @endif
-                            </p>
-                            <p id="event-venue" class="text-gray-400">
-                                @if(isset($event) && $event->venue)
-                                    {{ $event->venue->name }}
-                                @else
-                                    Venue TBA
-                                @endif
-                            </p>
+                            <div class="space-y-1">
+                                <p id="event-date" class="text-sm text-gray-400 flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    @if(isset($event) && $event->date)
+                                        {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y • g:i A') }}
+                                    @else
+                                        Date TBA
+                                    @endif
+                                </p>
+                                <p id="event-venue" class="text-sm text-gray-400 flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    @if(isset($event) && $event->venue)
+                                        {{ $event->venue->name }}
+                                    @else
+                                        Venue TBA
+                                    @endif
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Attendee Information -->
-                <div class="rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold text-white">Attendee Information</h2>
+                <!-- Enhanced Attendee Information -->
+                <div class="rounded-2xl bg-gradient-to-br from-gray-800/60 to-gray-800/40 backdrop-blur-md border border-gray-700/50 p-6 shadow-2xl">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <h2 class="text-xl font-bold text-white">Attendee Information</h2>
+                        </div>
                         @if(isset($userData) && $userData)
-                            <div class="flex items-center gap-2 text-sm text-primary-400 bg-primary-500/10 px-3 py-1 rounded-full">
+                            <div class="flex items-center gap-2 text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-xl">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                Auto-filled from your profile
+                                <span class="font-medium">Auto-filled</span>
                             </div>
                         @else
                             <div class="flex items-center gap-2 text-sm text-gray-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <a href="{{ route('register') }}" class="text-primary-400 hover:text-primary-300 underline">Create account</a> for faster checkout
+                                <a href="{{ route('register') }}" class="text-primary-400 hover:text-primary-300 underline font-medium">Create account</a> for faster checkout
                             </div>
                         @endif
                     </div>
